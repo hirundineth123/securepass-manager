@@ -12,9 +12,9 @@ from cryptography.hazmat.backends import default_backend
 import os
 
 DATA_FILE = "vault.dat"
-SALT = b"static_salt_123"  # later improve this
+SALT = b"static_salt_123" 
 
-# 🔐 Key from password
+# Key from password
 def derive_key(password):
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
@@ -25,12 +25,12 @@ def derive_key(password):
     )
     return base64.urlsafe_b64encode(kdf.derive(password.encode()))
 
-# 🔐 Encrypt
+# Encryption happens here
 def encrypt_data(key, data):
     f = Fernet(key)
     return f.encrypt(json.dumps(data).encode())
 
-# 🔓 Decrypt
+# Decryption happens here 
 def decrypt_data(key, token):
     f = Fernet(key)
     return json.loads(f.decrypt(token).decode())
